@@ -31,8 +31,9 @@ app.post("/items/create", async function (req, res) {
   const title = req.body.Title;
   const description = req.body.Description;
   const due = req.body.Due;
+  const complete = req.body.Complete;
 
-  await saveItem(title, description, due);
+  await saveItem(title, description, due, complete);
 });
 
 app.put("/items/update/:id", async function (req, res) {
@@ -40,8 +41,8 @@ app.put("/items/update/:id", async function (req, res) {
   const title = req.body.Title;
   const description = req.body.Description;
   const due = req.body.Due;
-
-  await updateItem(id, title, description, due);
+  const complete = req.body.Complete;
+  await updateItem(id, title, description, due, complete);
 });
 
 app.delete("/items/delete/:id", async function (req, res) {

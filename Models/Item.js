@@ -15,6 +15,11 @@ const ItemSchema = new Schema({
   Due: {
     type: Date,
   },
+
+  Complete: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports.ItemModel = mongoose.model("Item", ItemSchema);
