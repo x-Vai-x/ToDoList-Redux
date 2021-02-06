@@ -28,18 +28,18 @@ app.get("/items/view", async function (req, res) {
 });
 
 app.post("/items/create", async function (req, res) {
-  const title = req.body.title;
-  const description = req.body.description;
-  const due = req.body.due;
+  const title = req.body.Title;
+  const description = req.body.Description;
+  const due = req.body.Due;
 
   await saveItem(title, description, due);
 });
 
 app.put("/items/update/:id", async function (req, res) {
   const id = req.params.id;
-  const title = req.body.title;
-  const description = req.body.description;
-  const due = req.body.due;
+  const title = req.body.Title;
+  const description = req.body.Description;
+  const due = req.body.Due;
 
   await updateItem(id, title, description, due);
 });

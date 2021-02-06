@@ -21,7 +21,7 @@ module.exports.findItems = async function () {
 
 module.exports.updateItem = async function (id, title, description, due) {
   await mongoose.connect(DB).then(console.log("connected"));
-  await ExerciseModel.findOneAndUpdate(
+  await ItemModel.findOneAndUpdate(
     { _id: id },
     { $set: { Title: title, Description: description, Due: due } },
     { new: true }
