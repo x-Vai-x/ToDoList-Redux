@@ -20,6 +20,18 @@ module.exports.findItems = async function () {
   return await ItemModel.find({});
 };
 
+module.exports.findCompleteItems = async function () {
+  await mongoose.connect(DB).then(console.log("connected"));
+
+  return await ItemModel.find({ Complete: true });
+};
+
+module.exports.findIncompleteItems = async function () {
+  await mongoose.connect(DB).then(console.log("connected"));
+
+  return await ItemModel.find({ Complete: false });
+};
+
 module.exports.updateItem = async function (
   id,
   title,

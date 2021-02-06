@@ -18,12 +18,21 @@ app.use(
 const {
   saveItem,
   findItems,
+  findCompleteItems,
+  findIncompleteItems,
   updateItem,
   deleteItem,
 } = require("./DAO/ItemDAO");
 
 app.get("/items/view", async function (req, res) {
-  const items = await findItems();
+  const complete = req.query.complete;
+
+  let items = await findItems();
+  if (complete == "true") {
+    items = await findCompleteItems();
+  } else if (complete == "false") {
+    items = await findIncompleteItems();
+  }
   res.json(items);
 });
 
