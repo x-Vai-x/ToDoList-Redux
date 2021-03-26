@@ -10,7 +10,7 @@ module.exports.saveItem = async function (title, description, due, complete) {
     Due: due,
     Complete: complete,
   });
-  await item.save();
+  return await item.save();
 };
 
 module.exports.findItems = async function () {
@@ -39,7 +39,7 @@ module.exports.updateItem = async function (
   complete
 ) {
   await mongoose.connect(process.env.DB).then(console.log("connected"));
-  await ItemModel.findOneAndUpdate(
+  return await ItemModel.findOneAndUpdate(
     { _id: id },
     {
       $set: {
@@ -55,5 +55,5 @@ module.exports.updateItem = async function (
 
 module.exports.deleteItem = async function (id) {
   await mongoose.connect(process.env.DB).then(console.log("connected"));
-  await ItemModel.remove({ _id: id });
+  return await ItemModel.findByIdAndRemove(id);
 };

@@ -27,16 +27,19 @@ itemRouter.post("/create", async function (req) {
   const due = req.body.Due;
   const complete = req.body.Complete;
 
-  await saveItem(title, description, due, complete);
+  const item = await saveItem(title, description, due, complete);
+  res.json(item);
 });
 
 itemRouter.put("/update", async function (req) {
-  const id = req.body.id;
+  const id = req.body._id;
   const title = req.body.Title;
   const description = req.body.Description;
   const due = req.body.Due;
   const complete = req.body.Complete;
-  await updateItem(id, title, description, due, complete);
+
+  const item = await updateItem(id, title, description, due, complete);
+  res.json(item);
 });
 
 itemRouter.delete("/delete/:id", async function (req) {
