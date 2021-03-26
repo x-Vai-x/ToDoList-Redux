@@ -21,7 +21,7 @@ itemRouter.get("/view", async function (req, res) {
   res.json(items);
 });
 
-itemRouter.post("/create", async function (req, res) {
+itemRouter.post("/create", async function (req) {
   const title = req.body.Title;
   const description = req.body.Description;
   const due = req.body.Due;
@@ -30,8 +30,8 @@ itemRouter.post("/create", async function (req, res) {
   await saveItem(title, description, due, complete);
 });
 
-itemRouter.put("/update/:id", async function (req, res) {
-  const id = req.params.id;
+itemRouter.put("/update", async function (req) {
+  const id = req.body.id;
   const title = req.body.Title;
   const description = req.body.Description;
   const due = req.body.Due;
@@ -39,7 +39,7 @@ itemRouter.put("/update/:id", async function (req, res) {
   await updateItem(id, title, description, due, complete);
 });
 
-itemRouter.delete("/delete/:id", async function (req, res) {
+itemRouter.delete("/delete/:id", async function (req) {
   const id = req.params.id;
   await deleteItem(id);
 });
