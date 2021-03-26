@@ -2,7 +2,7 @@ import { CreateItemData, Item } from "./dataTypes";
 
 export default class API {
   static async getItems(complete?: number) {
-    const items = await fetch(`/items/view?complete=${complete}`);
+    const items = await fetch(`/items/view?complete=${complete||2}`);
     return items;
   }
 
