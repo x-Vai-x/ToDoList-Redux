@@ -48,3 +48,7 @@ const itemStatusesSlice = createSlice({
     });
   },
 });
+
+const { reducer } = itemStatusesSlice;
+export default reducer;
+export const { setFilteredStatus } = itemStatusesSlice.actions;

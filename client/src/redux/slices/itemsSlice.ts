@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import { Item } from "../../dataTypes";
+import { CreateItemData, Item } from "../../dataTypes";
 import API from "../../api";
 
 type SliceState = { items: Item[] };
@@ -11,7 +11,7 @@ const initialState: SliceState = {
 
 export const createItem = createAsyncThunk(
   "items/createItem",
-  async (payload: Item) => {
+  async (payload: CreateItemData) => {
     const item = await API.createItem(payload);
     return item;
   }
@@ -59,3 +59,6 @@ const itemsSlice = createSlice({
     });
   },
 });
+
+const { reducer } = itemsSlice;
+export default reducer;

@@ -14,6 +14,10 @@ import AddIcon from "@material-ui/icons/Add";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
+import { useDispatch } from "react-redux";
+
+import { createItem, updateItem } from "../../redux/slices/itemsSlice";
+
 type IProps = {
   existingItem?: Item;
 };
@@ -21,6 +25,7 @@ type IProps = {
 export default function ItemDialog({ existingItem }: IProps) {
   const [open, setOpen] = useState(false);
   const { register, handleSubmit, errors } = useForm<CreateItemData>({});
+  const dispatch = useDispatch();
 
   function handleClickOpen() {
     setOpen(true);
@@ -31,32 +36,9 @@ export default function ItemDialog({ existingItem }: IProps) {
   }
 
   function submitForm(data: CreateItemData) {
-    const { Title, Description, Due, Complete } = data;
     existingItem
-      ? fetch("/items/update/" + existingItem._id, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            Title: Title,
-            Description: Description,
-            Due: Due,
-            Complete: Complete,
-          }),
-        })
-          .then()
-          .catch()
-      : fetch("/items/create", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            Title: Title,
-            Description: Description,
-            Due: Due,
-            Complete: Complete,
-          }),
-        })
-          .then()
-          .catch();
+      ? dispatch(updateItem({ ...data, _id: existingItem._id }))
+      : dispatch(createItem(data));
     setOpen(false);
   }
 
