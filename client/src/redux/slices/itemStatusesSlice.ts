@@ -58,14 +58,32 @@ const itemStatusesSlice = createSlice({
     });
 
     builder.addCase(updateItem.fulfilled, (state, action) => {
+      const previouslyIncompleteItem = state.incompleteItems.find(
+        (item) => item._id === action.payload._id
+      );
+
       if (action.payload.Complete) {
-        state.completeItems = state.completeItems.map((i) =>
-          i._id === action.payload._id ? action.payload : i
-        );
+        if (previouslyIncompleteItem) {
+          state.completeItems = [...state.completeItems, action.payload];
+          state.incompleteItems = state.incompleteItems.filter(
+            (item) => item._id != action.payload._id
+          );
+        } else {
+          state.completeItems = state.completeItems.map((i) =>
+            i._id === action.payload._id ? action.payload : i
+          );
+        }
       } else {
-        state.incompleteItems = state.incompleteItems.map((i) =>
-          i._id === action.payload._id ? action.payload : i
-        );
+        if (previouslyIncompleteItem) {
+          state.incompleteItems = state.incompleteItems.map((i) =>
+            i._id === action.payload._id ? action.payload : i
+          );
+        } else {
+          state.incompleteItems = [...state.incompleteItems, action.payload];
+          state.completeItems = state.completeItems.filter(
+            (item) => item._id != action.payload._id
+          );
+        }
       }
     });
 
