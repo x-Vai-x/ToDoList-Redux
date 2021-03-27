@@ -25,7 +25,7 @@ export const updateItem = createAsyncThunk(
 
 export const deleteItem = createAsyncThunk(
   "items/deleteItem",
-  async (payload: number) => {
+  async (payload: Item) => {
     await API.deleteItem(payload);
     return payload;
   }

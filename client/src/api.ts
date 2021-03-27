@@ -23,8 +23,8 @@ export default class API {
     });
     return item.json();
   }
-  static async deleteItem(itemId: number) {
-    await fetch(`/items/delete/${itemId}`, {
+  static async deleteItem(data: Item) {
+    await fetch(`/items/delete/${data._id}`, {
       method: "DELETE",
     });
   }

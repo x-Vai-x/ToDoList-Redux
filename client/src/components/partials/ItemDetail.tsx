@@ -3,7 +3,7 @@ import ItemDialog from "../dialogs/ItemDialog";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { IconButton } from "@material-ui/core";
 import moment from "moment";
-import { deleteItem } from "../../redux/slices/itemsSlice";
+import { deleteItem } from "../../redux/thunkActions/itemsThunkActions";
 import { useDispatch } from "react-redux";
 
 type IProps = {
@@ -22,7 +22,7 @@ export default function ItemDetail({ item }: IProps) {
       }}
     >
       <IconButton>
-        <DeleteIcon onClick={() => dispatch(deleteItem(item._id))} />
+        <DeleteIcon onClick={() => dispatch(deleteItem(item))} />
       </IconButton>
 
       <ItemDialog existingItem={item} />

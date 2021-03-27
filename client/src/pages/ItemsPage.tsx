@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, shallowEqual } from "react-redux";
 
 import ItemDialog from "../components/dialogs/ItemDialog";
 import ItemDetail from "../components/partials/ItemDetail";
 import { Item } from "../dataTypes";
 
-import { getItems } from "../redux/slices/itemsSlice";
+import { getItems } from "../redux/thunkActions/itemsThunkActions";
 import {
   getCompleteItems,
   getIncompleteItems,
-} from "../redux/slices/itemStatusesSlice";
+} from "../redux/thunkActions/itemStatusesThunkActions";
 
 import { useSelector } from "../redux/rootReducer";
 import CompleteFilterDropdown from "../components/partials/CompleteFilterDropdown";
@@ -22,29 +22,36 @@ export default function ItemsPage() {
     shallowEqual
   );
 
-  if (filterStatus == 0) {
+  useEffect(() => {
     dispatch(getIncompleteItems());
-  } else if (filterStatus == 1) {
     dispatch(getCompleteItems());
-  } else {
     dispatch(getItems());
+  }),
+    [];
+
+  function getVisibleItems() {
+    switch (filterStatus) {
+      case 0:
+        return incompleteItems ?? [];
+
+      case 1:
+        return completeItems ?? [];
+
+      case 2:
+        return items ?? [];
+
+      default:
+        return items ?? [];
+    }
   }
 
-  let visibleItems = [];
-  visibleItems = Array.from(
-    (filterStatus == 0
-      ? incompleteItems
-      : filterStatus == 1
-      ? completeItems
-      : items) ?? []
-  );
   return (
     <>
       <CompleteFilterDropdown />
       <h1>Items</h1>
       <ItemDialog />
 
-      {visibleItems.map((i: Item) => (
+      {getVisibleItems().map((i: Item) => (
         <ItemDetail item={i} />
       ))}
     </>

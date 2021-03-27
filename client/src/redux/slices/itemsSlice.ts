@@ -35,7 +35,7 @@ const itemsSlice = createSlice({
       );
     });
     builder.addCase(deleteItem.fulfilled, (state, action) => {
-      state.items = state.items.filter((i) => i._id !== action.payload);
+      state.items = state.items.filter((i) => i._id !== action.payload._id);
     });
   },
 });

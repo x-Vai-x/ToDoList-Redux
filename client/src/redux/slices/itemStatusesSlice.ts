@@ -3,6 +3,12 @@ import {
   getIncompleteItems,
 } from "../thunkActions/itemStatusesThunkActions";
 
+import {
+  createItem,
+  deleteItem,
+  updateItem,
+} from "../thunkActions/itemsThunkActions";
+
 import { createSlice } from "@reduxjs/toolkit";
 import { Item } from "../../dataTypes";
 
@@ -38,6 +44,35 @@ const itemStatusesSlice = createSlice({
     });
     builder.addCase(getIncompleteItems.rejected, (state, action) => {
       state.incompleteItems = [];
+    });
+    builder.addCase(createItem.fulfilled, (state, action) => {
+      if (action.payload.Complete) {
+        state.completeItems = [...state.completeItems, action.payload];
+      } else {
+        state.incompleteItems = [...state.incompleteItems, action.payload];
+      }
+    });
+    builder.addCase(updateItem.fulfilled, (state, action) => {
+      if (action.payload.Complete) {
+        state.completeItems = state.completeItems.map((i) =>
+          i._id === action.payload._id ? action.payload : i
+        );
+      } else {
+        state.incompleteItems = state.incompleteItems.map((i) =>
+          i._id === action.payload._id ? action.payload : i
+        );
+      }
+    });
+    builder.addCase(deleteItem.fulfilled, (state, action) => {
+      if (action.payload.Complete) {
+        state.completeItems = state.completeItems.filter(
+          (i) => i._id !== action.payload._id
+        );
+      } else {
+        state.incompleteItems = state.incompleteItems.filter(
+          (i) => i._id !== action.payload._id
+        );
+      }
     });
   },
 });
