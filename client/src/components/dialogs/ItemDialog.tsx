@@ -16,7 +16,10 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { useDispatch } from "react-redux";
 
-import { createItem, updateItem } from "../../redux/slices/itemsSlice";
+import {
+  createItem,
+  updateItem,
+} from "../../redux/thunkActions/itemsThunkActions";
 
 type IProps = {
   existingItem?: Item;

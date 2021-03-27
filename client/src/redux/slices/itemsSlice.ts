@@ -21,6 +21,11 @@ const itemsSlice = createSlice({
     builder.addCase(createItem.fulfilled, (state, action) => {
       state.items = [...state.items, action.payload];
     });
+
+    builder.addCase(createItem.rejected, (state, action) => {
+      state.items = state.items;
+    });
+
     builder.addCase(getItems.fulfilled, (state, action) => {
       state.items = action.payload;
     });
@@ -34,8 +39,17 @@ const itemsSlice = createSlice({
         i._id === action.payload._id ? action.payload : i
       );
     });
+
+    builder.addCase(updateItem.rejected, (state, action) => {
+      state.items = state.items;
+    });
+
     builder.addCase(deleteItem.fulfilled, (state, action) => {
       state.items = state.items.filter((i) => i._id !== action.payload._id);
+    });
+
+    builder.addCase(deleteItem.rejected, (state, action) => {
+      state.items = state.items;
     });
   },
 });

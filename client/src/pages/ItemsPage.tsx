@@ -23,11 +23,10 @@ export default function ItemsPage() {
   );
 
   useEffect(() => {
-    dispatch(getIncompleteItems());
-    dispatch(getCompleteItems());
     dispatch(getItems());
-  }),
-    [];
+    dispatch(getCompleteItems());
+    dispatch(getIncompleteItems());
+  }, [dispatch]);
 
   function getVisibleItems() {
     switch (filterStatus) {

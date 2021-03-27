@@ -52,6 +52,11 @@ const itemStatusesSlice = createSlice({
         state.incompleteItems = [...state.incompleteItems, action.payload];
       }
     });
+    builder.addCase(createItem.rejected, (state, action) => {
+      state.completeItems = state.completeItems;
+      state.incompleteItems = state.incompleteItems;
+    });
+
     builder.addCase(updateItem.fulfilled, (state, action) => {
       if (action.payload.Complete) {
         state.completeItems = state.completeItems.map((i) =>
@@ -63,6 +68,12 @@ const itemStatusesSlice = createSlice({
         );
       }
     });
+
+    builder.addCase(updateItem.rejected, (state, action) => {
+      state.completeItems = state.completeItems;
+      state.incompleteItems = state.incompleteItems;
+    });
+
     builder.addCase(deleteItem.fulfilled, (state, action) => {
       if (action.payload.Complete) {
         state.completeItems = state.completeItems.filter(
@@ -73,6 +84,11 @@ const itemStatusesSlice = createSlice({
           (i) => i._id !== action.payload._id
         );
       }
+    });
+
+    builder.addCase(deleteItem.rejected, (state, action) => {
+      state.completeItems = state.completeItems;
+      state.incompleteItems = state.incompleteItems;
     });
   },
 });
