@@ -1,7 +1,10 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  getCompleteItems,
+  getIncompleteItems,
+} from "../thunkActions/itemStatusesThunkActions";
 
+import { createSlice } from "@reduxjs/toolkit";
 import { Item } from "../../dataTypes";
-import API from "../../api";
 
 type SliceState = {
   completeItems: Item[];
@@ -14,22 +17,6 @@ const initialState: SliceState = {
   incompleteItems: [],
   filterStatus: 2,
 };
-
-export const getIncompleteItems = createAsyncThunk(
-  "items/listItems/incomplete",
-  async () => {
-    const items = await API.getItems(0);
-    return items;
-  }
-);
-
-export const getCompleteItems = createAsyncThunk(
-  "items/listItems/complete",
-  async () => {
-    const items = await API.getItems(1);
-    return items;
-  }
-);
 
 const itemStatusesSlice = createSlice({
   name: "item_statuses",
