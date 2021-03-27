@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import { Provider } from "react-redux";
-import CompleteFilterDropdown from "./components/partials/CompleteFilterDropdown";
+
 import store from "./redux/store";
+import ItemsPage from "./pages/ItemsPage";
 
 function App() {
   return (
@@ -10,7 +11,7 @@ function App() {
       <Switch>
         <div>
           <Switch>
-            <Route exact path="/" component={CompleteFilterDropdown} />
+            <Route exact path="/" component={ItemsPage} />
           </Switch>
         </div>
       </Switch>

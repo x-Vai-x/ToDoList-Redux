@@ -46,6 +46,12 @@ const itemStatusesSlice = createSlice({
     builder.addCase(getIncompleteItems.fulfilled, (state, action) => {
       state.incompleteItems = action.payload;
     });
+    builder.addCase(getCompleteItems.rejected, (state, action) => {
+      state.completeItems = [];
+    });
+    builder.addCase(getIncompleteItems.rejected, (state, action) => {
+      state.incompleteItems = [];
+    });
   },
 });
 

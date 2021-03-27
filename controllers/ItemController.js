@@ -13,12 +13,12 @@ itemRouter.get("/view", async function (req, res) {
   const complete = req.query.complete;
 
   let items = await findItems();
-  if (complete == "true") {
+  if (complete == 1) {
     items = await findCompleteItems();
-  } else if (complete == "false") {
+  } else if (complete == 0) {
     items = await findIncompleteItems();
   }
-  res.json(items);
+  res.send(items);
 });
 
 itemRouter.post("/create", async function (req) {
@@ -28,7 +28,7 @@ itemRouter.post("/create", async function (req) {
   const complete = req.body.Complete;
 
   const item = await saveItem(title, description, due, complete);
-  res.json(item);
+  res.send(item);
 });
 
 itemRouter.put("/update", async function (req) {
@@ -39,7 +39,7 @@ itemRouter.put("/update", async function (req) {
   const complete = req.body.Complete;
 
   const item = await updateItem(id, title, description, due, complete);
-  res.json(item);
+  res.send(item);
 });
 
 itemRouter.delete("/delete/:id", async function (req) {

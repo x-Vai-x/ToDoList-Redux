@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
 
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import ItemsPage from "../../pages/ItemsPage";
+
+import { setFilteredStatus } from "../../redux/slices/itemStatusesSlice";
+import { useSelector } from "../../redux/rootReducer";
 
 export default function CompleteFilterDropdown() {
-  const [complete, setComplete] = useState(2);
+  const dispatch = useDispatch();
+
+  const { filterStatus } = useSelector((state) => state.itemStatuses);
 
   function handleChange(event: React.ChangeEvent<{ value: unknown }>) {
-    setComplete(event.target.value as number);
+    dispatch(setFilteredStatus(event.target.value as number));
   }
 
   return (
@@ -21,13 +26,13 @@ export default function CompleteFilterDropdown() {
           labelId="satus-select-label"
           id="status-select"
           onChange={handleChange}
+          defaultValue={filterStatus}
         >
           <MenuItem value={0}>Incomplete</MenuItem>
           <MenuItem value={1}>Complete</MenuItem>
           <MenuItem value={2}>All</MenuItem>
         </Select>
       </FormControl>
-      <ItemsPage complete={complete} />
     </>
   );
 }

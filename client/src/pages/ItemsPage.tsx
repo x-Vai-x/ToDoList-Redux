@@ -1,36 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useDispatch, shallowEqual } from "react-redux";
 
 import ItemDialog from "../components/dialogs/ItemDialog";
 import ItemDetail from "../components/partials/ItemDetail";
 import { Item } from "../dataTypes";
 
-type IProps = {
-  complete: Number;
-};
+import { getItems } from "../redux/slices/itemsSlice";
+import {
+  getCompleteItems,
+  getIncompleteItems,
+} from "../redux/slices/itemStatusesSlice";
 
-export default function ItemsPage({ complete }: IProps) {
-  const [items, setItems] = useState([]);
-  useEffect(() => {
-    if (complete == 2) {
-      fetch("/items/view")
-        .then((response) => response.json())
-        .then((response) => setItems(response));
-    } else if (complete == 0) {
-      fetch("/items/view?complete=false")
-        .then((response) => response.json())
-        .then((response) => setItems(response));
-    } else {
-      fetch("/items/view?complete=true")
-        .then((response) => response.json())
-        .then((response) => setItems(response));
-    }
-  });
+import { useSelector } from "../redux/rootReducer";
+import CompleteFilterDropdown from "../components/partials/CompleteFilterDropdown";
+
+export default function ItemsPage() {
+  const dispatch = useDispatch();
+  const { items } = useSelector((state) => state.items, shallowEqual);
+  const { completeItems, incompleteItems, filterStatus } = useSelector(
+    (state) => state.itemStatuses,
+    shallowEqual
+  );
+
+  if (filterStatus == 0) {
+    dispatch(getIncompleteItems());
+  } else if (filterStatus == 1) {
+    dispatch(getCompleteItems());
+  } else {
+    dispatch(getItems());
+  }
+
+  let visibleItems = [];
+  visibleItems = Array.from(
+    (filterStatus == 0
+      ? incompleteItems
+      : filterStatus == 1
+      ? completeItems
+      : items) ?? []
+  );
   return (
     <>
+      <CompleteFilterDropdown />
       <h1>Items</h1>
       <ItemDialog />
 
-      {items.map((i: Item) => (
+      {visibleItems.map((i: Item) => (
         <ItemDetail item={i} />
       ))}
     </>
